@@ -3,7 +3,9 @@ const bodyParser = require('body-parser');
 const taskRoutes = require('./routes/taskRoutes.js');
 const authRoutes = require('./routes/authRoutes');
 const { PORT } = require('./config/dotenv');
+const db = require('./config/db');
 const swaggerSetup = require('./swagger'); 
+
 const app = express();
 swaggerSetup(app); 
 
