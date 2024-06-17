@@ -77,8 +77,6 @@
  *         description: Not Found (user not found)
  */
 
-// Actual route handlers would follow
-
 
 const express = require('express');
 const router = express.Router();
