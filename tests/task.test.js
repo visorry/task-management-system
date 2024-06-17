@@ -33,5 +33,14 @@ describe('Task Management API', () => {
     expect(res.body.title).to.equal('Test Task');
   });
 
+  it('should retrieve all tasks', async () => {
+    await Task.create({ title: 'Task 1', description: 'Description 1', dueDate: '2024-06-30', priority: 'High', status: 'Todo' });
+    await Task.create({ title: 'Task 2', description: 'Description 2', dueDate: '2024-06-30', priority: 'Medium', status: 'In Progress' });
+    
+    const res = await request(app).get('/api/tasks');
+    expect(res.statusCode).to.equal(200);
+    expect(res.body).to.have.lengthOf(2);
+  });
+
   
 });
