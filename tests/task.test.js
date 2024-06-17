@@ -49,4 +49,15 @@ describe('Task Management API', () => {
     expect(res.statusCode).to.equal(200);
     expect(res.body.title).to.equal('Task 1');
   });
+
+  it('should update a task', async () => {
+    const task = await Task.create({ title: 'Task 1', description: 'Description 1', dueDate: '2024-06-30', priority: 'High', status: 'Todo' });
+
+    const res = await request(app)
+      .put(`/api/tasks/${task._id}`)
+      .send({ title: 'Updated Task', status: 'Done' });
+    expect(res.statusCode).to.equal(200);
+    expect(res.body.title).to.equal('Updated Task');
+    expect(res.body.status).to.equal('Done');
+  });
 });
