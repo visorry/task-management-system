@@ -1,7 +1,7 @@
 require('dotenv').config();
 const request = require('supertest');
 const mongoose = require('mongoose');
-const { expect } = require('chai');
+import { expect } from 'chai';
 const app = require('../index');
 const Task = require('../models/Task');
 const { TEST_MONGODB_URI } = require('../config/dotenv');
@@ -67,5 +67,5 @@ describe('Task Management API', () => {
     const res = await request(app).delete(`/api/tasks/${task._id}`);
     expect(res.statusCode).to.equal(204);
   });
-  
+
 });

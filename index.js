@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const taskRoutes = require('./routes/taskRoutes');
 const authRoutes = require('./routes/authRoutes');
 const db = require('./config/db');
 const { PORT } = require('./config/dotenv');
