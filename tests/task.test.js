@@ -60,4 +60,12 @@ describe('Task Management API', () => {
     expect(res.body.title).to.equal('Updated Task');
     expect(res.body.status).to.equal('Done');
   });
+
+  it('should delete a task', async () => {
+    const task = await Task.create({ title: 'Task 1', description: 'Description 1', dueDate: '2024-06-30', priority: 'High', status: 'Todo' });
+
+    const res = await request(app).delete(`/api/tasks/${task._id}`);
+    expect(res.statusCode).to.equal(204);
+  });
+  
 });
