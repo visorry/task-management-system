@@ -1,17 +1,18 @@
-const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
 const options = {
-  definition: {
+  swaggerDefinition: {
     openapi: '3.0.0',
     info: {
       title: 'Task Management API',
       version: '1.0.0',
-      description: 'A simple API for managing tasks',
+      description: 'API documentation for Task Management',
     },
     servers: [
       {
         url: 'http://localhost:3000',
+        description: 'Development server',
       },
     ],
     components: {
@@ -29,11 +30,11 @@ const options = {
       },
     ],
   },
-  apis: ['./routes/*.js', './models/*.js'], // files containing annotations for the OpenAPI Specification
+  apis: [ './routes/authRoutes.js' , './routes/taskRoutes.js'], // Path to the API routes
 };
 
-const specs = swaggerJsDoc(options);
+const specs = swaggerJsdoc(options);
 
-module.exports = (app) => {
+module.exports = function (app) {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 };
