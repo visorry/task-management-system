@@ -96,7 +96,7 @@ Explore API documentation using Swagger UI:
 
 ## Deployment
 
-For a live example, visit [Task Management System](https://task-management-system-fs9c.onrender.com).
+For a live example, visit https://task-management-system-fs9c.onrender.com
 
 ### Postman Collection
 
