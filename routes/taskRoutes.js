@@ -152,7 +152,21 @@ router.get('/tasks/:id', authMiddleware.authenticateToken, taskController.getTas
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Task'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               dueDate:
+ *                 type: string
+ *                 format: date
+ *               priority:
+ *                 type: string
+ *                 enum: [Low, Medium, High]
+ *               status:
+ *                 type: string
+ *                 enum: [Todo, In Progress, Done]
  *     responses:
  *       200:
  *         description: Task updated successfully
