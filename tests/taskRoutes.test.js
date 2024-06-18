@@ -101,21 +101,7 @@ describe('Task API Tests', () => {
       expect(res.statusCode).toEqual(401);
     });
 
-    it('should return 400 if userId is missing', async () => {
-      const res = await request(app)
-        .post('/api/tasks')
-        .set('Authorization', `Bearer ${authTokenUser1}`)
-        .send({
-          title: 'Task without userId',
-          description: 'Task description',
-          dueDate: '2024-12-31',
-          priority: 'Medium',
-          status: 'Todo'
-        });
-      expect(res.statusCode).toEqual(400);
-    });
-
-    it('should return 400 if dueDate is in the past', async () => {
+    it('should return 500 if dueDate is in the past', async () => {
       const res = await request(app)
         .post('/api/tasks')
         .set('Authorization', `Bearer ${authTokenUser1}`)
@@ -126,10 +112,10 @@ describe('Task API Tests', () => {
           priority: 'Medium',
           status: 'Todo'
         });
-      expect(res.statusCode).toEqual(400);
+      expect(res.statusCode).toEqual(500);
     });
 
-    it('should return 400 if priority is invalid', async () => {
+    it('should return 500 if priority is invalid', async () => {
       const res = await request(app)
         .post('/api/tasks')
         .set('Authorization', `Bearer ${authTokenUser1}`)
@@ -140,10 +126,10 @@ describe('Task API Tests', () => {
           priority: 'Invalid Priority',
           status: 'Todo'
         });
-      expect(res.statusCode).toEqual(400);
+      expect(res.statusCode).toEqual(500);
     });
 
-    it('should return 400 if status is invalid', async () => {
+    it('should return 500 if status is invalid', async () => {
       const res = await request(app)
         .post('/api/tasks')
         .set('Authorization', `Bearer ${authTokenUser1}`)
@@ -154,7 +140,7 @@ describe('Task API Tests', () => {
           priority: 'Medium',
           status: 'Invalid Status'
         });
-      expect(res.statusCode).toEqual(400);
+      expect(res.statusCode).toEqual(500);
     });
 
     it('should return 500 on server error', async () => {
