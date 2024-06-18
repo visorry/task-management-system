@@ -1,10 +1,33 @@
-// routes/authRoutes.js
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - username
+ *         - password
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The auto-generated id of the user
+ *         username:
+ *           type: string
+ *           description: The username of the user
+ *         password:
+ *           type: string
+ *           description: The password of the user
+ *       example:
+ *         id: d5fE_asz
+ *         username: johndoe
+ *         password: password123
+ */
 
 /**
  * @swagger
  * tags:
- *   name: Authentication
- *   description: User authentication operations
+ *   name: Auth
+ *   description: The authentication managing API
  */
 
 /**
@@ -12,78 +35,66 @@
  * /auth/register:
  *   post:
  *     summary: Register a new user
- *     tags: [Authentication]
+ *     tags: [Auth]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               password:
- *                 type: string
- *             required:
- *               - username
- *               - password
+ *             $ref: '#/components/schemas/User'
  *     responses:
- *       '201':
- *         description: Created
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 accessToken:
- *                   type: string
- *       '400':
- *         description: Bad Request (e.g., username already exists)
+ *       201:
+ *         description: The user was successfully created
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Some server error
  */
 
 /**
  * @swagger
  * /auth/login:
  *   post:
- *     summary: Login and obtain access token
- *     tags: [Authentication]
+ *     summary: Log in a user
+ *     tags: [Auth]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               password:
- *                 type: string
- *             required:
- *               - username
- *               - password
+ *             $ref: '#/components/schemas/User'
  *     responses:
- *       '200':
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 accessToken:
- *                   type: string
- *       '401':
- *         description: Unauthorized (invalid credentials)
- *       '404':
- *         description: Not Found (user not found)
+ *       200:
+ *         description: The user was successfully logged in
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Some server error
  */
 
-
 const express = require('express');
-const router = express.Router();
+const { check } = require('express-validator');
 const authController = require('../controllers/authController');
+const router = express.Router();
 
-// authentication routes
-router.post('/register', authController.register);
-router.post('/login', authController.login);
+router.post(
+  '/register',
+  [
+    check('username', 'Username is required').not().isEmpty(),
+    check('password', 'Password is required').not().isEmpty()
+  ],
+  authController.register
+);
+
+router.post(
+  '/login',
+  [
+    check('username', 'Username is required').not().isEmpty(),
+    check('password', 'Password is required').not().isEmpty()
+  ],
+  authController.login
+);
 
 module.exports = router;
