@@ -77,7 +77,6 @@ router.post(
     check('title', 'Title is required').not().isEmpty(),
     check('description', 'Description is required').not().isEmpty(),
     check('dueDate', 'Due date is required and should be a valid date').isISO8601().toDate(),
-    check('userId', 'User ID is required').not().isEmpty()
   ],
   taskController.createTask
 );
@@ -197,7 +196,7 @@ router.put(
  *     responses:
  *       200:
  *         description: Task deleted successfully
- *       404:
+ *       404: 
  *         description: Task not found
  *       500:
  *         description: Internal server error
