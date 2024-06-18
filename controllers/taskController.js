@@ -1,10 +1,15 @@
 const Task = require('../models/Task');
+const { validationResult } = require('express-validator');
 
 module.exports = {
-
-    async createTask(req, res) {
+  async createTask(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     try {
       const task = new Task({
+        userId: req.user.id,
         title: req.body.title,
         description: req.body.description,
         dueDate: req.body.dueDate,
@@ -20,7 +25,7 @@ module.exports = {
 
   async getAllTasks(req, res) {
     try {
-      const tasks = await Task.find();
+      const tasks = await Task.find({ userId: req.user.id });
       res.json(tasks);
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -29,7 +34,7 @@ module.exports = {
 
   async getTaskById(req, res) {
     try {
-      const task = await Task.findById(req.params.id);
+      const task = await Task.findOne({ _id: req.params.id, userId: req.user.id });
       if (!task) {
         return res.status(404).json({ message: 'Task not found' });
       }
@@ -40,8 +45,16 @@ module.exports = {
   },
 
   async updateTask(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     try {
-      const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      const updatedTask = await Task.findOneAndUpdate(
+        { _id: req.params.id, userId: req.user.id },
+        req.body,
+        { new: true }
+      );
       if (!updatedTask) {
         return res.status(404).json({ message: 'Task not found' });
       }
@@ -53,7 +66,7 @@ module.exports = {
 
   async deleteTask(req, res) {
     try {
-      const deletedTask = await Task.findByIdAndDelete(req.params.id);
+      const deletedTask = await Task.findOneAndDelete({ _id: req.params.id, userId: req.user.id });
       if (!deletedTask) {
         return res.status(404).json({ message: 'Task not found' });
       }

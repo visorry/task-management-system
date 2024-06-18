@@ -19,4 +19,4 @@ app.listen(PORT, () => {
   console.log(`Server started on http://localhost:${PORT}`);
 });
 
-module.exports = app; // Exporting app for testing
+module.exports = app;
